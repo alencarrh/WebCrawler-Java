@@ -1,8 +1,5 @@
 package webcrawler.pattern;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author Alencar Rodrigo Hentges <alencarhentges@gmail.com>

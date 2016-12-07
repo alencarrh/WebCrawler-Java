@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * jBixbe debuggee: test insert and delete operation of a balanced tree data structure. Using integer values read from keyboard as tree elements. //Copy from http://www.jbixbe.com/doc/tutorial/BTree.html - Edited Copy from: http://www.jbixbe.com/doc/tutorial/BTree.html - Edited
+ * jBixbe debuggee: test insert and delete operation of a balanced tree data structure. Using integer values read from keyboard as tree elements. 
+ * //Copy from http://www.jbixbe.com/doc/tutorial/BTree.html - Edited by Alencar Hentges<alencarhentges@gmail.com>
  *
  * @author ds-emedia
  * @param <T>
