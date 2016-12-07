@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 
+ *
  * @author Alencar Rodrigo Hentges <alencarhentges@gmail.com>
  * @date 04/11/2016 - 20:48:36
  */
@@ -33,33 +33,40 @@ public class DownloadPages {
 		HtmlPattern htmlPatternDiv;
 		HtmlPattern htmlPatternParagrafo;
 
-		String opcao = args[0];
-		switch (opcao) {
-			case "1":
-				site = "unisinos.br";
-				htmlPatternDiv = new HtmlPattern(".*<p>.*</p>.*", "<div class=\"article\">", "<div class=\"share-bar\">");
-				htmlPatternParagrafo = new HtmlPattern(".*\\..*", "<p>", "</p>");
-				break;
-			case "2":
-				site = "g1.globo.com";
-				htmlPatternDiv = new HtmlPattern(".*<p>.*</p>.*", "class=\"materia-conteudo entry-content clearfix\" id=\"materia-letra\">", "<div class=\"lista-de-entidades\">");
-				htmlPatternParagrafo = new HtmlPattern(".*\\..*", "<p>", "</p>");
-				break;
-			default:
-				site = opcao;
-				htmlPatternDiv = new HtmlPattern(".*", "", "");
-				htmlPatternParagrafo = new HtmlPattern(".*", "", "");
-				break;
-		}
+//		String opcao = args[0];
+//		switch (opcao) {
+//			case "1":
+//				site = "unisinos.br";
+//				htmlPatternDiv = new HtmlPattern(".*<p>.*</p>.*", "<div class=\"article\">", "<div class=\"share-bar\">");
+//				htmlPatternParagrafo = new HtmlPattern(".*\\..*", "<p>", "</p>");
+//				break;
+//			case "2":
+//				site = "g1.globo.com";
+//				htmlPatternDiv = new HtmlPattern(".*<p>.*</p>.*", "class=\"materia-conteudo entry-content clearfix\" id=\"materia-letra\">", "<div class=\"lista-de-entidades\">");
+//				htmlPatternParagrafo = new HtmlPattern(".*\\..*", "<p>", "</p>");
+//				break;
+//			default:
+//				site = opcao;
+//				htmlPatternDiv = new HtmlPattern(".*", "", "");
+//				htmlPatternParagrafo = new HtmlPattern(".*", "", "");
+//				break;
+//		}
+
+		site = "g1.globo.com";
+		htmlPatternDiv = new HtmlPattern(".*<p>.*</p>.*", "class=\"materia-conteudo entry-content clearfix\" id=\"materia-letra\">", "<div class=\"lista-de-entidades\">");
+		htmlPatternParagrafo = new HtmlPattern(".*\\..*", "<p>", "</p>");
 
 		htmlPatterns.add(htmlPatternDiv);
 		htmlPatterns.add(htmlPatternParagrafo);
 
 		String startURL = "http://" + site;
 		Pattern urlPattern = new Pattern("http.*" + site + ".*");
-		FileHandler file = new FileHandler(args.length >= 3 ? args[2] : "resultados.txt", false);
 
-		WebCrawler webCrawler = new WebCrawler(startURL, urlPattern, htmlPatterns, file, Integer.valueOf(args[1]));
+//		FileHandler file = new FileHandler(args.length >= 3 ? args[2] : "resultados.txt", false);
+		
+		FileHandler file = new FileHandler("resultados/resultados.txt", false);
+		int depth = args.length > 1 ? Integer.valueOf(args[1]) : 3;
+		WebCrawler webCrawler = new WebCrawler(startURL, urlPattern, htmlPatterns, file, depth);
 
 		String startTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
 		System.out.println("Time: " + startTime);
