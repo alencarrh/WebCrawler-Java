@@ -64,7 +64,7 @@ public class DownloadPages {
 
 //		FileHandler file = new FileHandler(args.length >= 3 ? args[2] : "resultados.txt", false);
 		
-		FileHandler file = new FileHandler("resultados/resultados.txt", false);
+		FileHandler file = new FileHandler("resultados/", "resultados.txt", false);
 		int depth = args.length > 1 ? Integer.valueOf(args[1]) : 3;
 		WebCrawler webCrawler = new WebCrawler(startURL, urlPattern, htmlPatterns, file, depth);
 
