@@ -5,4 +5,4 @@ This webcrawler has the objective to download only text from websites.
 
 
 ## The code
-The code is not good, i'm going do improve it with the time. Also, to get the content and to create the links, it's all manipulating strings(I'll change it to use Jsoup API).
+I'm going do improve the code with the time. Also, to get the content and to create the links, it's all manipulating strings(I'll change it to use Jsoup API).
