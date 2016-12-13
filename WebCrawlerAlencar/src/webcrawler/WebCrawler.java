@@ -53,44 +53,44 @@ public class WebCrawler {
     }
 
     private void startCrawler(Page page) throws IOException {
-        if (page == null) {
+        if (page == null || page.getLink() == null) {
             return;
         }
-        System.out.println("-Page: " + page.getLink().getStringURL());
-        if (page.getLink() == null) {
-            return;
-        }
+        System.out.println("-> Page: " + page.getLink().getStringURL());
 
-        //faz o download da página
-        page.downloadPage();
-
-        if (page.isProblem()) {
-            return;
-        }
-
-        //salva o seu conteúdo em disco        
-        fileHandler.save(page.getOnlyText(htmlPattern));
-
-        if (page.getNivel() > MAX_NIVEL) {// se a página tem um nível maior que o nível máximo, não precisa criar as páginas filhas.
+		//1 - faz o download da página
+		page.downloadPage();
+		
+		//2 - verifica se houve problema ao baixar
+		if(page.isProblem()){
+			System.out.println("Problem to download page: "+page);
+			return;
+		}
+		
+		//3 - salva o seu conteúdo em disco        
+        fileHandler.save(page.getContentToSave());
+		
+		//4 - verificar nível da página
+        if (page.getNivel() > MAX_NIVEL) {
             page.cleanPage();
             return;
         }
 
-        //cria as páginas baseadas nos links encontrados na página atual
-        page.criarPaginasFilhas(urlPattern);
-
-        List<Page> childPages = page.getFilhos().getAllAsList();
-
-        page.cleanPage();
-
-        for (Page childPage : childPages) {
-            linksVerificados++;
-            if (!allPages.isMember(childPage)) {
-                allPages.insert(childPage);
-                startCrawler(childPage);
-            }
-        }
-
+        //5 - Criar páginas filhas
+		page.createChildPages();
+		
+		//6 - limpa dados da página
+		page.cleanPage();
+        
+		//7 - percorre as páginas filhas e startCrawler() a partir delas
+		for (Page childPage : page.getChildPages().getAllAsList()) {
+			if(!allPages.contains(childPage)){
+				allPages.insert(childPage);
+				startCrawler(childPage);
+			}
+		}
+		
+		//8 - throw to HD buffer data
         fileHandler.flush();
     }
 

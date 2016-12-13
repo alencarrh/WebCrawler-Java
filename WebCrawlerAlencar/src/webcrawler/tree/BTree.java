@@ -52,6 +52,16 @@ public class BTree<T extends Comparable<T>> {
     public boolean isMember(T info) {
         return isMember(info, root);
     }
+	
+	/**
+     * Checks whether the given element is already in the tree.
+     *
+     * @param info
+     * @return
+     */
+    public boolean contains(T info) {
+        return isMember(info, root);
+    }
 
     /**
      * Removes an elememt from the tree.
