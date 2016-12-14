@@ -19,7 +19,6 @@ public class WebCrawler {
 
 	private final Pattern urlPattern;
 	private final List<HtmlPattern> htmlPattern;
-//    private final String tag
 	private final int MAX_NIVEL;
 	private int linksVerificados;
 
@@ -56,15 +55,16 @@ public class WebCrawler {
 		if (page == null || page.getLink() == null) {
 			return;
 		}
-		System.out.println("-> Page: " + page.getLink().getStringURL());
 
 		//1 - faz o download da página
 		page.downloadPage();
 
 		//2 - verifica se houve problema ao baixar
 		if (page.isProblem()) {
-			System.out.println("Problem to download page: " + page);
+			System.err.println("Problem to download page: " + page.getLink().getStringURL());
 			return;
+		} else {
+			System.out.println("-> Page downloaded: " + page.getLink().getStringURL());
 		}
 
 		//3 - salva o seu conteúdo em disco        
@@ -82,9 +82,6 @@ public class WebCrawler {
 		//6 - limpa dados da página
 		page.cleanPage();
 
-		//8 - throw to HD buffer data
-		fileHandler.flush();		
-		
 		//7 - percorre as páginas filhas e startCrawler() a partir delas
 		for (Page childPage : page.getChildPages().getAllAsList()) {
 			linksVerificados++;
@@ -94,6 +91,8 @@ public class WebCrawler {
 			}
 		}
 
+		//8 - throw to HD buffer data
+		fileHandler.flush();
 	}
 
 }

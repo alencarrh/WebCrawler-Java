@@ -26,6 +26,7 @@ public class DownloadPages {
 //		
 		site = "g1.globo.com";
 
+		//Jsoup tag for "document.select(YOUR_TAG_HERE)"
 		htmlPatternDiv = new HtmlPattern(".*", "div.materia-conteudo");
 		htmlPatternParagrafo = new HtmlPattern(".*\\..*", "p");
 
@@ -37,7 +38,7 @@ public class DownloadPages {
 
 		FileHandler file = new FileHandler("resultados/", "resultados.txt", false);
 		int depth = 1;
-		WebCrawler webCrawler = new WebCrawler(startURL, urlPattern, htmlPatterns, file, depth, false	);
+		WebCrawler webCrawler = new WebCrawler(startURL, urlPattern, htmlPatterns, file, depth, false);
 
 		String startTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
 		System.out.println("Time: " + startTime);

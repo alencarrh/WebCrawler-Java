@@ -3,6 +3,7 @@ package webcrawler;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import org.jsoup.Jsoup;
@@ -29,11 +30,11 @@ public class Page implements Comparable<Page> {
 	private boolean downloaded;
 	private boolean problem;
 	private final boolean showStackTraceOnErrors;
-	private final String stringsToRemove[];
+	private List<String> stringsToRemove;
 
-	public Page(int nivel, Link link, Page pageOrigem, boolean showStackTraceOnErrors, String[] stringsToRemove) {
+	public Page(int nivel, Link link, Page pageOrigem, boolean showStackTraceOnErrors, List<String> stringsToRemove) {
 		Character nbsp = 160;/*html "&nbsp;" is the same as char code 160*/
-		this.stringsToRemove = stringsToRemove != null ? stringsToRemove : new String[]{nbsp.toString()};
+		this.stringsToRemove = stringsToRemove != null ? stringsToRemove : Arrays.asList(nbsp.toString());
 		this.level = nivel;
 		this.link = link;
 		this.pageOrigin = pageOrigem;
@@ -63,20 +64,15 @@ public class Page implements Comparable<Page> {
 
 	}
 
-	public List<String> getContentToSave(List<HtmlPattern> htmlPattern) {
-		List<String> texts = new ArrayList<>();
-		Elements all = html.select("*");
-		for (HtmlPattern pattern : htmlPattern) {
-			all = all.select(pattern.getJsoupSelectorFilter());
-			if (all.size() > 0) {
-				System.out.print("");
-			}
-			if (!pattern.matches(HtmlUtils.removeTags(all.toString()))) {
-				return texts;
-			}
-		}
+	private Elements applyPatternFilter(Elements all, HtmlPattern pattern) {
+		all = all.select(pattern.getJsoupSelectorFilter());
+		return pattern.matches(HtmlUtils.removeTags(all.toString())) ? all : null;
+	}
+
+	private void addTextToList(Elements all, List<String> texts) {
+		String text;
 		for (Element element : all) {
-			String text = HtmlUtils.removeTags(element.ownText());
+			text = HtmlUtils.removeTags(element.ownText());
 			for (String stringToRemove : stringsToRemove) {
 				text = text.replace(stringToRemove, "");
 			}
@@ -84,15 +80,28 @@ public class Page implements Comparable<Page> {
 				texts.add(text);
 			}
 		}
+	}
+
+	public List<String> getContentToSave(List<HtmlPattern> htmlPattern) {
+		List<String> texts = new ArrayList<>();
+		Elements all = html.select("*");
+		for (HtmlPattern pattern : htmlPattern) {
+			all = applyPatternFilter(all, pattern);
+			if (all == null) {
+				return texts;
+			}
+		}
+		addTextToList(all, texts);
 		return texts;
 	}
 
 	public void createChildPages(Pattern urlPattern) {
 		childPages = new BTree<>();
+		String stringLink;
 		Elements listLinks = html.select("a[href]");
 		for (Element tempLink : listLinks) {
 			try {
-				String stringLink = tempLink.attr("abs:href");
+				stringLink = tempLink.attr("abs:href");
 				if (stringLink.endsWith("/")) {
 					stringLink = stringLink.substring(0, stringLink.length() - 1);
 				}
@@ -132,8 +141,13 @@ public class Page implements Comparable<Page> {
 	}
 
 	public void cleanPage() {
-		//TODO: verificar se a tag remove() funciona.
 		html = null;
+	}
+
+	public void cleanAll() {
+		html = null;
+		childPages = null;
+		stringsToRemove = null;
 	}
 
 	public int getNivel() {
