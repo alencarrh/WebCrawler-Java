@@ -61,10 +61,10 @@ public class WebCrawler {
 
 		//2 - verifica se houve problema ao baixar
 		if (page.isProblem()) {
-			System.err.println("Problem to download page: " + page.getLink().getStringURL());
+			System.err.println("Problem page: (" + page.getNivel() + ") - " + page.getLink().getStringURL());
 			return;
 		} else {
-			System.out.println("-> Page downloaded: " + page.getLink().getStringURL());
+			System.out.println("-> Page: (" + page.getNivel() + ") - " + page.getLink().getStringURL());
 		}
 
 		//3 - salva o seu conteúdo em disco        
