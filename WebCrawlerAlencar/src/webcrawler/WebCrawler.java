@@ -6,7 +6,6 @@ import webcrawler.pattern.HtmlPattern;
 import webcrawler.tree.BTree;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -98,18 +97,24 @@ public class WebCrawler {
     }
 
     private String buildTrack(Page page) {
-        final StringBuilder sb = new StringBuilder();
-        List<Integer> track = new ArrayList<>();
-        Page temp = page;
-        while (temp.getPageOrigin() != null) {
-            track.add(temp.getPageOrigin().getLevel());
-            temp = temp.getPageOrigin();
+//	Código não necessário para criar a string de retorno deste método. 
+//	//TODO: verificar necessidade da existência deste código comentado.
+//        final StringBuilder sb = new StringBuilder();
+//        List<Integer> track = new ArrayList<>();
+//        Page temp = page;
+//        while (temp.getPageOrigin() != null) {
+//            track.add(temp.getPageOrigin().getLevel());
+//            temp = temp.getPageOrigin();
+//        }
+//        for (int i = track.size() - 1; i >= 0; i--) {
+//            sb.append(track.get(i)).append("->");
+//        }
+//        return track.size() > 0 ? sb.append(page.getLevel()).toString() : sb.append("->").append(page.getLevel()).toString();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i < page.getLevel(); i++) {
+            sb.append(i).append("->");
         }
-        for (int i = track.size() - 1; i >= 0; i--) {
-            sb.append(track.get(i)).append("->");
-        }
-
-        return track.size() > 0 ? sb.append(page.getLevel()).toString() : sb.append("->").append(page.getLevel()).toString();
+        return sb.append(page.getLevel()).toString();
     }
 
 }
