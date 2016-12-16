@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * jBixbe debuggee: test insert and delete operation of a balanced tree data structure. Using integer values read from keyboard as tree elements. 
- * //Copy from http://www.jbixbe.com/doc/tutorial/BTree.html - Edited by Alencar Hentges<alencarhentges@gmail.com>
+ * jBixbe debuggee: test insert and delete operation of a balanced tree data
+ * structure. Using integer values read from keyboard as tree elements. //Copy
+ * from http://www.jbixbe.com/doc/tutorial/BTree.html - Edited by Alencar
+ * Hentges<alencarhentges@gmail.com>
  *
  * @author ds-emedia
  * @param <T>
@@ -52,8 +54,8 @@ public class BTree<T extends Comparable<T>> {
     public boolean isMember(T info) {
         return isMember(info, root);
     }
-	
-	/**
+
+    /**
      * Checks whether the given element is already in the tree.
      *
      * @param info

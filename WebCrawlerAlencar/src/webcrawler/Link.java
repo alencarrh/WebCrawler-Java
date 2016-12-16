@@ -11,41 +11,41 @@ import java.util.Objects;
  */
 public class Link implements Comparable<Link> {
 
-	private final String stringURL;
-	private final URL url;
-	private boolean online;
+    private final String stringURL;
+    private final URL url;
+    private boolean online;
 
-	public Link(String url) throws MalformedURLException {
-		this.stringURL = url;
-		this.url = new URL(url);
-	}
+    public Link(String url) throws MalformedURLException {
+        this.stringURL = url;
+        this.url = new URL(url);
+    }
 
-	@Override
-	public int compareTo(Link o) {
-		return this.stringURL.compareToIgnoreCase(o.getStringURL());
-	}
+    @Override
+    public int compareTo(Link o) {
+        return this.stringURL.compareToIgnoreCase(o.getStringURL());
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final Link other = (Link) obj;
-		return Objects.equals(this.stringURL, other.stringURL);
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Link other = (Link) obj;
+        return Objects.equals(this.stringURL, other.stringURL);
+    }
 
-	public String getStringURL() {
-		return stringURL;
-	}
+    public String getStringURL() {
+        return stringURL;
+    }
 
-	public URL getUrl() {
-		return url;
-	}
+    public URL getUrl() {
+        return url;
+    }
 
 }

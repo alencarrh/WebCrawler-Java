@@ -7,14 +7,14 @@ package webcrawler.pattern;
  */
 public class Pattern {
 
-	private final String pattern;
+    private final String pattern;
 
-	public Pattern(String pattern) {
-		this.pattern = pattern;
-	}
+    public Pattern(String pattern) {
+        this.pattern = pattern;
+    }
 
-	public boolean matches(String someString) {
-		return someString.length() > 0 && someString.matches(pattern);
-	}
+    public boolean matches(String someString) {
+        return someString.length() > 0 && someString.matches(pattern);
+    }
 
 }

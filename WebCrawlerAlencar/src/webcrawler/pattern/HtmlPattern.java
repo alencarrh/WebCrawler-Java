@@ -7,15 +7,15 @@ package webcrawler.pattern;
  */
 public class HtmlPattern extends Pattern {
 
-	private final String jsoupSelectorFilter;
+    private final String jsoupSelectorFilter;
 
-	public HtmlPattern(String pattern, String jsoupSelectorFilter) {
-		super(pattern);
-		this.jsoupSelectorFilter = jsoupSelectorFilter;
-	}
+    public HtmlPattern(String pattern, String jsoupSelectorFilter) {
+        super(pattern);
+        this.jsoupSelectorFilter = jsoupSelectorFilter;
+    }
 
-	public String getJsoupSelectorFilter() {
-		return jsoupSelectorFilter;
-	}
+    public String getJsoupSelectorFilter() {
+        return jsoupSelectorFilter;
+    }
 
 }
