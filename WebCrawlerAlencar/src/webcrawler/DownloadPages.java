@@ -17,40 +17,40 @@ import java.util.List;
  */
 public class DownloadPages {
 
-	public static void main(String[] args) throws MalformedURLException, IOException {
-		String site;
-		List<HtmlPattern> htmlPatterns = new ArrayList<>();
-		HtmlPattern htmlPatternDiv;
-		HtmlPattern htmlPatternParagrafo;
+    public static void main(String[] args) throws MalformedURLException, IOException {
+        String site;
+        List<HtmlPattern> htmlPatterns = new ArrayList<>();
+        HtmlPattern htmlPatternDiv;
+        HtmlPattern htmlPatternParagrafo;
 
 //		
-		site = "g1.globo.com";
+        site = "g1.globo.com";
 
-		//Jsoup tag for "document.select(YOUR_TAG_HERE)"
-		htmlPatternDiv = new HtmlPattern(".*", "div.materia-conteudo");
-		htmlPatternParagrafo = new HtmlPattern(".*\\..*", "p");
+        //Jsoup tag for "document.select(YOUR_TAG_HERE)"
+        htmlPatternDiv = new HtmlPattern(".*", "div.materia-conteudo");
+        htmlPatternParagrafo = new HtmlPattern(".*\\..*", "p");
 
-		htmlPatterns.add(htmlPatternDiv);
-		htmlPatterns.add(htmlPatternParagrafo);
+        htmlPatterns.add(htmlPatternDiv);
+        htmlPatterns.add(htmlPatternParagrafo);
 
-		String startURL = "http://" + site;
-		Pattern urlPattern = new Pattern("http.*" + site + ".*");
+        String startURL = "http://" + site;
+        Pattern urlPattern = new Pattern("http.*" + site + ".*");
 
-		FileHandler file = new FileHandler("resultados/", "resultados.txt", false);
-		int depth = 20;
-		WebCrawler webCrawler = new WebCrawler(startURL, urlPattern, htmlPatterns, file, depth, false);
+        FileHandler file = new FileHandler("resultados/", "resultados.txt", false);
+        int depth = 10;
+        WebCrawler webCrawler = new WebCrawler(startURL, urlPattern, htmlPatterns, file, depth, false);
 
-		String startTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
-		System.out.println("Time: " + startTime);
+        String startTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
+        System.out.println("Time: " + startTime);
 
-		long timeStart = System.nanoTime();
-		webCrawler.startCrawler();
-		long timeEnd = System.nanoTime();
+        long timeStart = System.nanoTime();
+        webCrawler.startCrawler();
+        long timeEnd = System.nanoTime();
 
-		String endTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
-		System.out.println("Start time: " + startTime + "\nEnd time: " + endTime);
+        String endTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
+        System.out.println("Start time: " + startTime + "\nEnd time: " + endTime);
 
-		System.out.println("Tempo de duração: " + ((timeEnd - timeStart) / 1000000) + "ms");
+        System.out.println("Tempo de duração: " + ((timeEnd - timeStart) / 1000000) + "ms");
 
-	}
+    }
 }
