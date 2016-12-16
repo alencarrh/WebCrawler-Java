@@ -37,7 +37,7 @@ public class DownloadPages {
 		Pattern urlPattern = new Pattern("http.*" + site + ".*");
 
 		FileHandler file = new FileHandler("resultados/", "resultados.txt", false);
-		int depth = 1;
+		int depth = 20;
 		WebCrawler webCrawler = new WebCrawler(startURL, urlPattern, htmlPatterns, file, depth, false);
 
 		String startTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
