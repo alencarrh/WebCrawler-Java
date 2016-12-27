@@ -6,7 +6,10 @@ import webcrawler.pattern.HtmlPattern;
 import webcrawler.tree.BTree;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.BlockingDeque;
 
 /*
  *
@@ -16,31 +19,39 @@ import java.util.List;
 public class WebCrawler {
 
     private final FileHandler fileHandler;
+    private final Queue<Page> pageQeueue;
 
     private final Pattern urlPattern;
     private final List<HtmlPattern> htmlPattern;
     private final int MAX_NIVEL;
     private int linksVerificados;
 
-    private static BTree<Page> allPages;
-    private static Page rootPage;
+    private final BTree<Page> allPages;
+    private final Page rootPage;
 
     public WebCrawler(String startURL, Pattern urlPattern, List<HtmlPattern> htmlPattern, FileHandler file, int maxNivel, boolean showStackTraceOnErrors) throws MalformedURLException {
         this.linksVerificados = 1;
-        allPages = new BTree<>();
-        rootPage = new Page(1, new Link(startURL), null, showStackTraceOnErrors);
-        allPages.insert(rootPage);
         this.urlPattern = urlPattern;
         this.htmlPattern = htmlPattern;
         this.fileHandler = file;
         this.MAX_NIVEL = maxNivel;
+        this.pageQeueue = new LinkedList<>();
+        this.allPages = new BTree<>();
+        this.rootPage = new Page(1, new Link(startURL), null, showStackTraceOnErrors);
+
+        //init
+        pageQeueue.add(rootPage);
+        allPages.insert(rootPage);
+
     }
 
     public void startCrawler() throws IOException {
         System.out.println("WebCrawler iniciado!");
         fileHandler.openFile();
 
-        startCrawler(rootPage);
+        while (!pageQeueue.isEmpty()) {
+            startCrawler(pageQeueue.poll());
+        }
 
         fileHandler.closeFile();
         System.out.println("\n\nWebCrawler finalizado!");
@@ -84,13 +95,13 @@ public class WebCrawler {
         page.cleanPage();
 
         //7 - percorre as páginas filhas e startCrawler() a partir delas
-        for (Page childPage : page.getChildPages().getAllAsList()) {
+        page.getChildPages().getAllAsList().forEach(childPage -> {
             linksVerificados++;
             if (!allPages.contains(childPage)) {
                 allPages.insert(childPage);
-                startCrawler(childPage);
+                pageQeueue.add(childPage);
             }
-        }
+        });
 
         //8 - throw to HD buffer data
         fileHandler.flush();
@@ -115,6 +126,10 @@ public class WebCrawler {
             sb.append(i).append("->");
         }
         return sb.append(page.getLevel()).toString();
+    }
+
+    public int getLinksVerificados() {
+        return linksVerificados;
     }
 
 }
