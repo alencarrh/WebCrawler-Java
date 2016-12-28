@@ -20,6 +20,10 @@ import java.util.logging.Logger;
 public class DownloadPages {
 
     public static void main(String[] args) {
+        if (args.length != 1) {
+            System.out.println("Deve-se passar somente 1 parâmetro!");
+            return;
+        }
         String startTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
         WebCrawler webCrawler = null;
         try {
@@ -42,7 +46,7 @@ public class DownloadPages {
             Pattern urlPattern = new Pattern("http.*" + site + ".*");
 
             FileHandler file = new FileHandler("resultados/", "resultados.txt", false);
-            int depth = 3300;
+            int depth = Integer.valueOf(args[0]);
             webCrawler = new WebCrawler(startURL, urlPattern, htmlPatterns, file, depth, false);
 
             System.out.println("Time: " + startTime);
@@ -60,7 +64,6 @@ public class DownloadPages {
         } catch (IOException ex) {
             printStackTrace(ex, webCrawler, startTime);
         }
-
     }
 
     public static void printStackTrace(Exception ex, WebCrawler webCrawler, String startTime) {

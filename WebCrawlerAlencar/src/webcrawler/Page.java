@@ -60,6 +60,12 @@ public class Page implements Comparable<Page> {
             if (showStackTraceOnErrors) {
                 ex.printStackTrace();
             }
+        } catch (Exception ex) {
+            downloaded = false;
+            problem = true;
+            if (showStackTraceOnErrors) {
+                ex.printStackTrace();
+            }
         }
 
     }
